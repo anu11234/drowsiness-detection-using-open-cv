@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Device</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: radial-gradient(circle, rgb(0, 255, 0) 20%, rgb(0, 0, 0) 100%);
+            /* RGB green glow effect */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Device</h1>
+        <form method="POST" onsubmit="return validateForm()">
+            <label for="Device_Component">Device_Component:</label>
+            <input type="text" id="Device_Component" name="Device_Component" value="{{ device[1] }}" required>
+            <label for="Department">Department:</label>
+            <input type="text" id="Department" name="Department" value="{{ device[2] }}" required>
+            <label for="serial_number">Serial Number:</label>
+            <input type="text" id="serial_number" name="serial_number" value="{{ device[3] }}" required>
+            <label for="purchase_date">Purchase Date:</label>
+            <input type="date" id="purchase_date" name="purchase_date" value="{{ device[4] }}" required>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" value="{{ device[5] }}" required>
+            <label for="warranty">Warranty:</label>
+            <input type="text" id="warranty" name="warranty" value="{{ device[6] }}" required>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ device[7] }}" required>
+            <div id="error-message" class="error"></div>
+            <button type="submit">Update Device</button>
+        </form>
+    </div>
+    <script>
+        function validateForm() {
+            const Device_Component = document.getElementById("Device_Component").value.trim();
+            const Department = document.getElementById("Department").value.trim();
+            const serialNumber = document.getElementById("serial_number").value.trim();
+            const price = document.getElementById("price").value.trim();
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.textContent = "";
+
+            if (!deviceName) {
+                errorMessage.textContent = "Device name cannot be empty.";
+                return false;
+            }
+            if (!serialNumber) {
+                errorMessage.textContent = "Serial number cannot be empty.";
+                return false;
+            }
+            if (price <= 0) {
+                errorMessage.textContent = "Price must be a positive number.";
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

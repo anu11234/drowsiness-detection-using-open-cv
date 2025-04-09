@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(170, 130, 100); /* Aged canvas color */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: #333; /* Darker text for contrast */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff; /* White heading */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow for better visibility */
+        }
+        .action-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .action-buttons a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: rgba(0, 123, 255, 0.9); /* Blue action buttons */
+            color: white;
+            border-radius: 5px;
+            margin-right: 10px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .action-buttons a:hover {
+            background-color: rgba(0, 86, 179, 0.9);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        table th {
+            background-color: rgb(100, 70, 50); /* Dark brown for headers */
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: rgba(249, 249, 249, 0.9);
+        }
+        table tr:hover {
+            background-color: rgba(241, 241, 241, 0.9);
+        }
+        .delete-button, .qr-button {
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-left: 5px;
+        }
+        .delete-button {
+            background-color: red;
+        }
+        .delete-button:hover {
+            background-color: darkred;
+        }
+        .qr-button {
+            background-color: green;
+        }
+        .qr-button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>Device Management</h1>
+    <div class="action-buttons">
+        <a href="/add">Add Device</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Device / Component</th>
+                <th>Department</th>
+                <th>Serial Number</th>
+                <th>Purchase Date</th>
+                <th>Price</th>
+                <th>Warranty</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in devices %}
+            <tr>
+                <td>{{ device[0] }}</td>
+                <td>{{ device[1] }}</td>
+                <td>{{ device[2] }}</td>
+                <td>{{ device[3] }}</td>
+                <td>{{ device[4] }}</td>
+                <td>{{ device[5] }}</td>
+                <td>{{ device[6] }}</td>
+                <td>{{ device[7] }}</td>
+                <td>
+                    <a href="/edit/{{ device[0] }}">Edit</a>
+                    <form action="/delete/{{ device[0] }}" method="POST" style="display:inline;">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this device?');">Delete</button>
+                    </form>
+                    <button class="qr-button" onclick="generateQRCode({{ device[0] }})">QR Code</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        function generateQRCode(deviceId) {
+            // Redirect to the QR code generation endpoint
+            window.location.href = `/generate_qr_code/${deviceId}`;
+        }
+    </script>
+</body>
+</html>
